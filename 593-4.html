@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colorful Word List</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(45deg, #fdc254, #f391aa, #e9a6e0, #7ba6f5, #a2c2e5);
+            background-size: 400% 400%;
+            animation: gradientBackground 5s ease infinite;
+            color: #fff;
+            padding: 40px;
+            margin: 0;
+            line-height: 1.6;
+            text-align: center;
+        }
+
+        @keyframes gradientBackground {
+            0% {
+                background-position: 0% 50%;
+            }
+            25% {
+                background-position: 100% 0%;
+            }
+            50% {
+                background-position: 100% 100%;
+            }
+            75% {
+                background-position: 0% 100%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 3em;
+            color: #ffffff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+            margin-bottom: 50px;
+        }
+
+        .list-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .list-item {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 15px 0;
+            width: 355px;
+            height: 100px; /* Increased height for word boxes */
+            font-size: 1.65em;
+        }
+
+        .number-box, .word-box, .pinyin-box {
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+            transition: background 0.3s ease, transform 0.3s ease;
+            text-align: center;
+        }
+
+        .number-box {
+            margin-right: 15px;
+            width: 40px; /* Adjusted width for better alignment */
+            font-size: 1.0em; /* Slightly larger font size */
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .word-box {
+            flex-grow: 1;
+            font-size: 1.2em; /* Increased font size */
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: default; /* Default cursor if not clickable */
+        }
+
+        .word-box.clickable {
+            cursor: pointer; /* Pointer cursor if clickable */
+        }
+
+        .word-box .pinyin {
+            font-size: 1.0em; /* Larger font size for better readability */
+            color: #ffeb3b; /* Adjusted color for better visibility */
+            margin-left: 10px;
+        }
+
+        .pinyin-box {
+            display: none;
+            margin-top: 15px;
+            font-size: 1.2em;
+            color: #ffeb3b; /* Adjusted color for better visibility */
+        }
+
+        .click-prompt {
+            font-size: 1em;
+            color: #FFD700;
+            margin-top: 10px;
+        }
+
+        .list-item:hover .number-box, .list-item:hover .word-box {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-5px);
+        }
+
+        .button-container {
+            margin-top: 30px;
+        }
+
+        .start-button, .next-button {
+            padding: 10px 20px;
+            font-size: 1.2em;
+            background: #ff9a9e;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 0 10px;
+        }
+
+        .start-button:hover, .next-button:hover {
+            background: #f6d365;
+        }
+
+        @media (max-width: 600px) {
+            .number-box, .word-box, .pinyin-box {
+                font-size: 1em;
+            }
+            .start-button, .next-button {
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>梁杰的词语</h1>
+
+    <div class="list-container">
+        <div class="list-item" id="wordDisplay">
+            <div class="number-box" id="wordNumber"></div>
+            <div class="word-box" id="wordText"></div>
+        </div>
+        <div class="pinyin-box" id="pinyinDisplay"></div>
+        <div class="click-prompt">点击词语以查看读音</div>
+    </div>
+
+    <div class="button-container">
+        <button class="start-button" onclick="startGame()">重新开始</button>
+        <button class="next-button" onclick="nextWord()">下一个词</button>
+    </div>
+
+    <!-- Background Music -->
+    <audio id="backgroundMusic" src="WATERLOO (NEW).mp3" autoplay loop></audio>
+
+    <script>
+        const words = [
+            { number: 593, text: '中山陵' },
+            { number: 594, text: '山东天后' },
+            { number: 595, text: '魁地奇' },
+            { number: 596, text: '陕西天后' },
+            { number: 597, text: '芭比' },
+            { number: 598, text: '夸藻' },
+            { number: 599, text: '五藻蛊', pinyin: '(wǔ zǎo gǔ)' },
+            { number: 600, text: '蛊忠五', pinyin: '(gǔ zhōng wǔ)' },
+            { number: 601, text: '翟瞿霍', pinyin: '(zhái qú huò)' },
+            { number: 602, text: '烤奶皮' },
+            { number: 603, text: '香蕉皮' },
+            { number: 604, text: '杏皮水' },
+            { number: 605, text: '双皮奶' },
+            { number: 606, text: '肉皮冻' },
+            { number: 607, text: '皮皮虾' },
+            { number: 608, text: '清西陵' },
+            { number: 609, text: '美女哥哥' },
+            { number: 610, text: '奥本海默' },
+            { number: 611, text: '帅哥姐姐' },
+            { number: 612, text: '丰田' },
+            { number: 613, text: '潭覃', pinyin: '(tán qín)' },
+            { number: 614, text: '志嘴' },
+            { number: 615, text: '俊菜灯' },
+            { number: 616, text: '诺蹦瓶' },
+            { number: 617, text: '大阪烧' },
+            { number: 618, text: '和田玉' },
+            { number: 619, text: '奥运会' },
+            { number: 620, text: '天守阁' },
+            { number: 621, text: '东京塔' },
+            { number: 622, text: '炸酱面' }
+        ];
+
+        let currentIndex = -1;
+
+        function startGame() {
+            currentIndex = 0;
+            showWord();
+        }
+
+        function nextWord() {
+            if (currentIndex < words.length - 1) {
+                currentIndex++;
+                showWord();
+            }
+        }
+
+        function showWord() {
+            const word = words[currentIndex];
+            document.getElementById('wordNumber').textContent = word.number;
+            document.getElementById('wordText').textContent = word.text;
+            if (word.pinyin) {
+                document.getElementById('wordText').classList.add('clickable');
+                document.getElementById('wordText').onclick = togglePinyin;
+                document.getElementById('pinyinDisplay').textContent = word.pinyin;
+            } else {
+                document.getElementById('wordText').classList.remove('clickable');
+                document.getElementById('wordText').onclick = null;
+                document.getElementById('pinyinDisplay').textContent = '';
+            }
+            document.getElementById('pinyinDisplay').style.display = 'none';
+        }
+
+        function togglePinyin() {
+            const pinyinBox = document.getElementById('pinyinDisplay');
+            if (pinyinBox.style.display === 'none') {
+                pinyinBox.style.display = 'block';
+            } else {
+                pinyinBox.style.display = 'none';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            startGame();
+        });
+    </script>
+
+</body>
+</html>

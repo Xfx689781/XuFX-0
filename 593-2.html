@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Colorful Word List</title>
+    <title>梁杰的词语#593~622</title>
     <style>
         body {
             font-family: 'Times New Roman', Tahoma, Geneva, Verdana, sans-serif;
@@ -55,6 +55,7 @@
             align-items: center;
             margin: 15px 0;
             width: 355px;
+            display: none; /* Hide all items initially */
         }
 
         .number-box, .word-box {
@@ -93,6 +94,28 @@
             background: rgba(255, 255, 255, 0.25);
             transform: translateY(-5px);
         }
+
+        .control-button {
+            margin-top: 30px;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            background: #ff9a9e;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .control-button:hover {
+            background: #f6d365;
+        }
+
+        @media (max-width: 600px) {
+            .list-item {
+                width: 100%;
+                font-size: 1.2em;
+            }
+        }
     </style>
 </head>
 <body>
@@ -100,130 +123,167 @@
     <h1>梁杰的词语</h1>
 
     <div class="list-container">
-        <div class="list-item">
+        
+   
+        <div class="list-item" id="item1">
             <div class="number-box">593</div>
             <div class="word-box">中山陵</div>
         </div>
-        <div class="list-item">
+        <div class="list-item" id="item2">
             <div class="number-box">594</div>
             <div class="word-box">山东天后</div>
         </div>
-        <div class="list-item">
+        <div class="list-item" id="item4">
             <div class="number-box">595</div>
             <div class="word-box">魁地奇</div>
         </div>
-        <div class="list-item">
+        <div class="list-item" id="item5">
             <div class="number-box">596</div>
             <div class="word-box">陕西天后</div>
         </div>
-        <div class="list-item">
+        <div class="list-item" id="item6">
             <div class="number-box">597</div>
             <div class="word-box">芭比</div>
         </div>
-        <div class="list-item">
+        <div class="list-item" id="item7">
             <div class="number-box">598</div>
             <div class="word-box">夸藻</div>
         </div>
-        <div class="list-item">
+        <div class="list-item" id="item8">
             <div class="number-box">599</div>
             <div class="word-box">五藻蛊<span class="pinyin">(wǔ zǎo gǔ)</span></div>
         </div>
-        <div class="list-item">
+        <div class="list-item" id="item9">
             <div class="number-box">600</div>
             <div class="word-box">蛊忠五<span class="pinyin">(gǔ zhōng wǔ)</span></div>
         </div>
-        <div class="list-item">
+        <div class="list-item" id="item10">
             <div class="number-box">601</div>
             <div class="word-box">翟瞿霍<span class="pinyin">(zhái qú huò)</span></div>
         </div>
-        <div class="list-item">
+        <div class="list-item" id="item11">
             <div class="number-box">602</div>
             <div class="word-box">烤奶皮</div>
         </div>
-        <div class="list-item">
+        <div class="list-item" id="item12">
             <div class="number-box">603</div>
             <div class="word-box">香蕉皮</div>
         </div>
-        <div class="list-item">
+        <div class="list-item" id="item13">
             <div class="number-box">604</div>
             <div class="word-box">杏皮水</div>
         </div>
-        <div class="list-item">
+        <div class="list-item" id="item14">
             <div class="number-box">605</div>
             <div class="word-box">双皮奶</div>
         </div>
-        <div class="list-item">
+        <div class="list-item" id="item15">
             <div class="number-box">606</div>
             <div class="word-box">肉皮冻</div>
         </div>
-        <div class="list-item">
+        <div class="list-item" id="item16">
             <div class="number-box">607</div>
             <div class="word-box">皮皮虾</div>
         </div>
-        <div class="list-item">
+        <div class="list-item" id="item17">
             <div class="number-box">608</div>
             <div class="word-box">清西陵</div>
         </div>
-        <div class="list-item">
+        <div class="list-item" id="item18">
             <div class="number-box">609</div>
             <div class="word-box">美女哥哥</div>
         </div>
-        <div class="list-item">
+        <div class="list-item" id="item19">
             <div class="number-box">610</div>
             <div class="word-box">奥本海默</div>
         </div>
-        <div class="list-item">
+        <div class="list-item" id="item20">
             <div class="number-box">611</div>
             <div class="word-box">帅哥姐姐</div>
         </div>
-        <div class="list-item">
+        <div class="list-item" id="item21">
             <div class="number-box">612</div>
             <div class="word-box">丰田</div>
         </div>
-        <div class="list-item">
+        <div class="list-item" id="item22">
             <div class="number-box">613</div>
             <div class="word-box">潭覃<span class="pinyin">(tán qín)</span></div>
         </div>
-        <div class="list-item">
+        <div class="list-item" id="item23">
             <div class="number-box">614</div>
             <div class="word-box">志嘴</div>
         </div>
-        <div class="list-item">
+        <div class="list-item" id="item24">
             <div class="number-box">615</div>
             <div class="word-box">俊菜灯</div>
         </div>
-        <div class="list-item">
+        <div class="list-item" id="item25">
             <div class="number-box">616</div>
             <div class="word-box">诺蹦瓶</div>
         </div>
-        <div class="list-item">
+        <!-- Add more list items as needed -->
+        <div class="list-item" id="item26">
             <div class="number-box">617</div>
             <div class="word-box">大阪烧</div>
         </div>
-        <div class="list-item">
+        <div class="list-item" id="item26">
             <div class="number-box">618</div>
             <div class="word-box">和田玉</div>
         </div>
-        <div class="list-item">
+        <div class="list-item" id="item26">
             <div class="number-box">619</div>
             <div class="word-box">奥运会</div>
         </div>
-        <div class="list-item">
+        <div class="list-item" id="item26">
             <div class="number-box">620</div>
             <div class="word-box">天守阁</div>
         </div>
-        <div class="list-item">
+        <div class="list-item" id="item26">
             <div class="number-box">621</div>
             <div class="word-box">东京塔</div>
         </div>
-        <div class="list-item">
+        <div class="list-item" id="item26">
             <div class="number-box">622</div>
             <div class="word-box">炸酱面</div>
         </div>
     </div>
 
-    <!-- Background Music -->
-    <audio id="backgroundMusic" src="WATERLOO (NEW).mp3" autoplay loop></audio>
+    <button class="control-button" id="startButton">下一个词</button>
+    <button class="control-button" id="nextButton" style="display:none;">下一个词</button>
 
+    <!-- Background Music -->
+    <audio id="backgroundMusic" src="WATERLOO (NEW).mp3" preload="auto" autoplay loop></audio>
+
+    <script>
+        let currentIndex = 0;
+        const items = document.querySelectorAll('.list-item');
+        const startButton = document.getElementById('startButton');
+        const nextButton = document.getElementById('nextButton');
+
+        function showCurrentItem() {
+            items.forEach((item, index) => {
+                item.style.display = index === currentIndex ? 'flex' : 'none';
+            });
+        }
+
+        function start() {
+            startButton.style.display = 'none';
+            nextButton.style.display = 'inline-block';
+            showCurrentItem();
+        }
+
+        function next() {
+            currentIndex = (currentIndex + 1) % items.length;
+            showCurrentItem();
+        }
+
+        startButton.addEventListener('click', start);
+        nextButton.addEventListener('click', next);
+
+        // Automatically show the first item when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            showCurrentItem();
+        });
+    </script>
 </body>
 </html>
