@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colorful Word List</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(45deg, #535353, #ffffff, #ffb7f5, #9b9b9b, #a2c2e5);
+            background-size: 400% 400%;
+            animation: gradientBackground 5s ease infinite;
+            color: #fff;
+            padding: 40px;
+            margin: 0;
+            line-height: 1.6;
+            text-align: center;
+        }
+
+        @keyframes gradientBackground {
+            0% {
+                background-position: 0% 50%;
+            }
+            25% {
+                background-position: 100% 0%;
+            }
+            50% {
+                background-position: 100% 100%;
+            }
+            75% {
+                background-position: 0% 100%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 3em;
+            color: #ffffff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+            margin-bottom: 50px;
+        }
+
+        .list-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .list-item {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 15px 0;
+            width: 355px;
+            height: 100px; /* Increased height for word boxes */
+            font-size: 1.65em;
+        }
+
+        .number-box, .word-box {
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+            transition: background 0.3s ease, transform 0.3s ease;
+            text-align: center;
+        }
+
+        .number-box {
+            margin-right: 15px;
+            width: 40px; /* Adjusted width for better alignment */
+            font-size: 1.2em; /* Slightly larger font size */
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .word-box {
+            flex-grow: 1;
+            font-size: 1.2em; /* Increased font size */
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: default; /* Default cursor if not clickable */
+        }
+
+        .word-box.clickable {
+            cursor: pointer; /* Pointer cursor if clickable */
+        }
+
+        .pinyin {
+            font-size: 1.5em; /* Larger font size for better readability */
+            font-weight: bold;
+            color: #000000; /* Adjusted color for better visibility */
+            margin-top: 10px;
+        }
+
+        .click-prompt {
+            font-size: 1.2em;
+            color: #000000;
+            margin-top: 10px;
+            display: none; /* Initially hidden */
+        }
+
+        .list-item:hover .number-box, .list-item:hover .word-box {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-5px);
+        }
+
+        .button-container {
+            margin-top: 30px;
+        }
+
+        .start-button, .next-button {
+            padding: 10px 20px;
+            font-size: 1.2em;
+            background: #ff9a9e;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 0 10px;
+        }
+
+        .start-button:hover, .next-button:hover {
+            background: #f6d365;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 600px) {
+            .number-box, .word-box {
+                font-size: 1em;
+            }
+            .start-button, .next-button {
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>贺普的词语</h1>
+
+    <div class="list-container">
+        <div class="list-item" id="wordDisplay">
+            <div class="number-box" id="wordNumber"></div>
+            <div class="word-box" id="wordText"></div>
+        </div>
+        <div class="pinyin" id="pinyinDisplay"></div>
+        <div class="click-prompt" id="clickPrompt">点击词语以查看读音</div>
+    </div>
+
+    <div class="button-container">
+        <button class="start-button" onclick="startGame()">重新开始</button>
+        <button class="next-button" id="nextButton" onclick="nextWord()">下一个词</button>
+    </div>
+
+    <!-- Background Music -->
+    <audio id="backgroundMusic" src="WATERLOO (NEW).mp3" autoplay loop></audio>
+
+    <script>
+        const words = [
+        { number: 593, text: '十三陵' },
+            { number: 594, text: '蔷薇花' },
+            { number: 595, text: '魁北克' },
+            { number: 596, text: '苏打水' },
+            { number: 597, text: '鹏鹏奶奶' },
+            { number: 598, text: '兵马俑' },
+            { number: 599, text: '电吉他' },
+            { number: 600, text: '麻团' },
+            { number: 601, text: '人工智能' },
+            { number: 602, text: '奶酪片' },
+            { number: 603, text: '苹果皮' },
+            { number: 604, text: '豆浆' },
+            { number: 605, text: '牛奶' },
+            { number: 606, text: '肉皮冻' },
+            { number: 607, text: '小龙虾' },
+            { number: 608, text: '清东陵' },
+            { number: 609, text: '台风' },
+            { number: 610, text: '鹏鹏奶奶' },
+            { number: 611, text: '井盖' },
+            { number: 612, text: '丰田' },
+            { number: 613, text: '修理工' },
+            { number: 614, text: '英格兰' },
+            { number: 615, text: '北极圈' },
+            { number: 616, text: '神经网络' },
+            { number: 617, text: '章鱼烧' },
+            { number: 618, text: '和田玉' },
+            { number: 619, text: '世锦赛' },
+            { number: 620, text: '清水寺' },
+            { number: 621, text: '东京塔' },
+            { number: 622, text: '鹏鹏奶奶' }
+        ];
+
+        let currentIndex = -1;
+        let pinyinVisible = false;
+
+        function startGame() {
+            currentIndex = 0;
+            pinyinVisible = false; // Reset pinyin visibility
+            document.getElementById('nextButton').classList.remove('hidden'); // Ensure the button is visible at the start
+            showWord();
+        }
+
+        function nextWord() {
+            if (currentIndex < words.length - 1) {
+                currentIndex++;
+                if (currentIndex === words.length - 1) {
+                    document.getElementById('nextButton').classList.add('hidden'); // Hide the button at word 622
+                }
+                pinyinVisible = false; // Reset pinyin visibility
+                showWord();
+            }
+        }
+
+        function showWord() {
+            const word = words[currentIndex];
+            document.getElementById('wordNumber').textContent = word.number;
+            document.getElementById('wordText').textContent = word.text;
+
+            if (word.pinyin) {
+                document.getElementById('wordText').classList.add('clickable');
+                document.getElementById('wordText').onclick = togglePinyin;
+                document.getElementById('pinyinDisplay').textContent = word.pinyin;
+                document.getElementById('clickPrompt').style.display = 'block';
+                document.getElementById('clickPrompt').textContent = '点击词语以查看读音'; // Reset prompt
+            } else {
+                document.getElementById('wordText').classList.remove('clickable');
+                document.getElementById('wordText').onclick = null;
+                document.getElementById('pinyinDisplay').textContent = '';
+                document.getElementById('clickPrompt').style.display = 'none';
+            }
+            document.getElementById('pinyinDisplay').style.display = 'none';
+        }
+
+        function togglePinyin() {
+            const pinyinBox = document.getElementById('pinyinDisplay');
+            if (pinyinVisible) {
+                pinyinBox.style.display = 'none';
+                document.getElementById('clickPrompt').textContent = '点击词语以查看读音';
+            } else {
+                pinyinBox.style.display = 'block';
+                document.getElementById('clickPrompt').textContent = '再次点击词语以收回读音';
+            }
+            pinyinVisible = !pinyinVisible;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            startGame();
+        });
+    </script>
+
+</body>
+</html>
+

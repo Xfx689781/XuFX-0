@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数学题·第一弹</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(45deg, #fdc254, #f391aa, #e9a6e0, #7ba6f5, #a2c2e5);
+            background-size: 400% 400%;
+            animation: gradientBackground 5s ease infinite;
+            color: #000;
+            padding: 40px;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        @keyframes gradientBackground {
+            0% { background-position: 0% 50%; }
+            25% { background-position: 100% 0%; }
+            50% { background-position: 100% 100%; }
+            75% { background-position: 0% 100%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #000;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+            margin-bottom: 30px;
+        }
+
+        .question-container {
+            font-size: 1.34em;
+            margin: 30px 0;
+        }
+
+        .button-container {
+            margin-top: 20px;
+        }
+
+        .navigation-button {
+            padding: 10px 20px;
+            font-size: 1em;
+            background: #ff9a9e;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 0 10px;
+        }
+
+        .navigation-button:hover {
+            background: #f6d365;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 600px) {
+            .navigation-button {
+                font-size: 0.9em;
+            }
+        }
+
+        .final-score {
+            font-size: 2em;
+            color: #fff;
+            padding: 30px;
+            background-color: #7ba6f5;
+            text-align: center;
+            border-radius: 10px;
+            margin-top: 40px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .ranking-container {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #e9a6e0;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .ranking-item {
+            font-size: 1.2em;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Math Questions</h1>
+
+    <div id="questionSection">
+        <div class="question-container" id="questionDisplay"></div>
+        <input type="number" id="answerInput" placeholder="Enter your answer" />
+        <div class="button-container">
+            <button class="navigation-button hidden" id="backButton" onclick="prevQuestion()">Back</button>
+            <button class="navigation-button" id="submitButton" onclick="submitAnswer()">Submit</button>
+            <button class="navigation-button hidden" id="nextButton" onclick="nextQuestion()">Next</button>
+        </div>
+    </div>
+
+    <div id="scoreSection" class="hidden">
+        <div class="final-score" id="finalScoreDisplay"></div>
+        <input type="text" id="playerName" placeholder="Enter your name" />
+        <button class="navigation-button" onclick="submitPlayer()">Submit Your Score</button>
+        <div class="ranking-container">
+            <h3>Leaderboard</h3>
+            <div id="rankingDisplay"></div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            { text: "1. In a village, what is the minimum value of N? <br> <br> 在一个村庄里，N 的最小值是多少？", answer: 70 },
+            { text: "2. Find the sum of all x values where x < 100. <br> <br> 找出所有 x 值的和，其中 x < 100。", answer: 31 },
+            { text: "3. Buying how many helmets will cost the most? <br> <br> 购买多少顶头盔的总费用最高？", answer: 50 }
+        ];
+
+        let currentIndex = 0;
+        let score = 0;
+        let userAnswers = [];
+
+        function showQuestion() {
+            document.getElementById('questionDisplay').innerHTML = questions[currentIndex].text;
+            document.getElementById('answerInput').value = "";
+            document.getElementById('backButton').classList.toggle('hidden', currentIndex === 0);
+            document.getElementById('submitButton').classList.remove('hidden');
+            document.getElementById('nextButton').classList.add('hidden');
+        }
+
+        function submitAnswer() {
+            const userAnswer = parseInt(document.getElementById('answerInput').value);
+            userAnswers.push(userAnswer);
+            document.getElementById('submitButton').classList.add('hidden');
+            document.getElementById('nextButton').classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            if (currentIndex < questions.length - 1) {
+                currentIndex++;
+                showQuestion();
+            } else {
+                calculateScore();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                showQuestion();
+            }
+        }
+
+        function calculateScore() {
+            questions.forEach((question, index) => {
+                if (userAnswers[index] === question.answer) {
+                    score += 5;
+                }
+            });
+
+            document.getElementById('questionSection').classList.add('hidden');
+            document.getElementById('scoreSection').classList.remove('hidden');
+            document.getElementById('finalScoreDisplay').innerHTML = `Your total score is ${score} out of ${questions.length * 5}`;
+        }
+
+        function submitPlayer() {
+            const playerName = document.getElementById('playerName').value;
+            if (playerName) {
+                const ranking = JSON.parse(localStorage.getItem('ranking')) || [];
+                ranking.push({ name: playerName, score: score });
+                ranking.sort((a, b) => b.score - a.score); // Sort by highest score
+
+                localStorage.setItem('ranking', JSON.stringify(ranking));
+                displayRanking();
+            }
+        }
+
+        function displayRanking() {
+            const ranking = JSON.parse(localStorage.getItem('ranking')) || [];
+            const rankingDisplay = document.getElementById('rankingDisplay');
+            rankingDisplay.innerHTML = "";
+            ranking.forEach((entry, index) => {
+                rankingDisplay.innerHTML += `<div class="ranking-item">${index + 1}. ${entry.name} - ${entry.score} points</div>`;
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            showQuestion();
+        });
+    </script>
+
+</body>
+</html>

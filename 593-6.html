@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数学题·第一弹</title>
+    <style>
+        body {
+            font-family: 'Times New Roman', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(45deg, #fdc254, #f391aa, #e9a6e0, #7ba6f5, #a2c2e5);
+            background-size: 400% 400%;
+            animation: gradientBackground 5s ease infinite;
+            color: #000; /* Set font color to black */
+            padding: 40px;
+            margin: 0;
+            line-height: 1.6;
+        }/*  */
+
+        @keyframes gradientBackground {
+            0% { background-position: 0% 50%; }
+            25% { background-position: 100% 0%; }
+            50% { background-position: 100% 100%; }
+            75% { background-position: 0% 100%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #000;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+            margin-bottom: 30px;
+        }
+
+        .question-container {
+            font-size: 1.34em;
+            margin: 30px 0;
+        }
+
+        .button-container {
+            margin-top: 20px;
+        }
+
+        .navigation-button {
+            padding: 10px 20px;
+            font-size: 1em;
+            background: #ff9a9e;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 0 10px;
+        }
+
+        .navigation-button:hover {
+            background: #f6d365;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 600px) {
+            .navigation-button {
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Math Questions</h1>
+
+    <div class="question-container" id="questionDisplay"></div>
+
+    <div class="button-container">
+        <button class="navigation-button hidden" id="backButton" onclick="prevQuestion()">Back</button>
+        <button class="navigation-button" id="nextButton" onclick="nextQuestion()">Next</button>
+    </div>
+
+    <script>
+        // Define the math questions with Chinese translations
+        const questions = [
+            "1. In a village, there are a total of N residents, where each resident was born in a different year. Michael, who was born in the 1990s, and Alice, who was born in the 2000s, are two of the residents. If there are 47 residents who are older than Alice, and 22 residents are younger than Michael. Then, what is the minimum value of N? <br> <br> 在一个村庄里，总共有 N 名居民，每位居民的出生年份都不同。迈克尔出生在1990年代，爱丽丝出生在2000年代。他们是居民中的两个人。如果有47名居民比爱丽丝年长，22名居民比迈克尔年轻。那么，N 的最小值是多少？",
+            "2. If the value of log(2)x + log(4)x is an integer, find the sum of all the x values where x < 100. <br> <br> 如果 log(2)x + log(4)x 的值是整数，找出所有 x 值的和，其中 x < 100。",
+            "3. A supermarket offered a promotion for helmets it was unable to sell. Its starting price is $50, with a purchase limit of 100 helmets. For each additional helmet purchased, the price increases by $2, and for each additional two helmets purchased, the discount increases by 1%. For example, when purchasing four helmets, the price of the helmet is $58, with a 2% discount, the total price is $56.84. So, buying how many helmets will cost the most? <br> <br> 一家超市为其未能销售的头盔提供了促销。头盔的起始价格为50美元，购买限制为100顶头盔。每购买一个额外的头盔，价格增加2美元，并且每多购买两个头盔，折扣增加1%。例如，购买四顶头盔时，头盔的价格为58美元，折扣为2%，总价格为56.84美元。那么，购买多少顶头盔的总费用最高？"
+        ];
+
+        let currentIndex = 0;
+
+        function showQuestion() {
+            // Display the current question
+            document.getElementById('questionDisplay').innerHTML = questions[currentIndex];
+            
+            // Manage visibility of navigation buttons
+            document.getElementById('backButton').classList.toggle('hidden', currentIndex === 0);
+            document.getElementById('nextButton').classList.toggle('hidden', currentIndex === questions.length - 1);
+        }
+
+        function nextQuestion() {
+            if (currentIndex < questions.length - 1) {
+                currentIndex++;
+                showQuestion();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                showQuestion();
+            }
+        }
+
+        // Initialize the game
+        document.addEventListener('DOMContentLoaded', function() {
+            showQuestion();
+        });
+    </script>
+
+</body>
+</html>
