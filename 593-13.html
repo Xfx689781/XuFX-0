@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数学题·第一弹</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mathquill/0.10.1/mathquill.css">
+    <style>
+        body {
+            font-family: 'Times New Roman', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(45deg, #fdc254, #f391aa, #e9a6e0, #7ba6f5, #a2c2e5);
+            background-size: 400% 400%;
+            animation: gradientBackground 5s ease infinite;
+            color: #000;
+            padding: 40px;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        @keyframes gradientBackground {
+            0% { background-position: 0% 50%; }
+            25% { background-position: 100% 0%; }
+            50% { background-position: 100% 100%; }
+            75% { background-position: 0% 100%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #000;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+            margin-bottom: 30px;
+        }
+
+        .question-container {
+            font-size: 1.34em;
+            margin: 30px 0;
+        }
+
+        .button-container {
+            margin-top: 20px;
+        }
+
+        .navigation-button {
+            padding: 10px 20px;
+            font-size: 1em;
+            background: #ff9a9e;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 0 10px;
+        }
+
+        .navigation-button:hover {
+            background: #f6d365;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .final-score {
+            font-size: 2em;
+            color: #fff;
+            padding: 30px;
+            background-color: #7ba6f5;
+            text-align: center;
+            border-radius: 10px;
+            margin-top: 40px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .ranking-container {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #e9a6e0;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .ranking-item {
+            font-size: 1.2em;
+            margin-bottom: 5px;
+        }
+
+        #q6-diagram {
+            display: none;
+            width: 50%; /* Adjust width for smaller image */
+            margin: 10px 0; /* Space around the image */
+        }
+    </style>
+</head>
+<body>
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathquill/0.10.1/mathquill.min.js"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <h1>Math Questions</h1>
+    <div id="questionSection">
+        <div class="question-container" id="questionDisplay"></div>
+        <div id="mathInput" style="border: 1px solid #ccc; padding: 10px; height: 50px;"></div> <!-- Added height -->
+        <div class="button-container">
+            <button class="navigation-button hidden" id="backButton" onclick="prevQuestion()">Back</button>
+            <button class="navigation-button" id="nextButton" onclick="nextQuestion()">Next</button>
+        </div>
+    </div>
+
+    <div id="scoreSection" class="hidden">
+        <div class="final-score" id="finalScoreDisplay"></div>
+        <input type="text" id="playerName" placeholder="Enter your name" />
+        <button class="navigation-button" id="submitNameButton" onclick="submitPlayer()">Submit Your Score</button>
+        <div class="ranking-container">
+            <h3>Leaderboard</h3>
+            <div id="rankingDisplay"></div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            { 
+                text: `1. What is the value of the following calculation: <br><br> 
+                       2023 - (2024<sup>2</sup> + 2027<sup>2</sup>) + (2025<sup>2</sup> + 2026<sup>2</sup>)`,
+                answer: (2023 - (Math.pow(2024, 2) + Math.pow(2027, 2)) + (Math.pow(2025, 2) + Math.pow(2026, 2)))
+            },
+            { 
+                text: `2. In a mathematics club, there are a total of 120 students. 60% of them like to study geometry, and 
+                25% of the remaining students like to study algebra, and the rest like to study number theory. 
+                How many students like to study number theory?`, 
+                answer: 36 
+            },
+            { 
+                text: `3. In an acute isosceles triangle ABC, side AB and AC are equal. The three inner angles all have 
+                values of integers. How many possible values for ∠A exist to meet the conditions?`, 
+                answer: 5 
+            },
+            { 
+                text: `4. David wrote 5 positive integers a, b, c, d, and e on the wall. Their sum is 60 and they form an 
+                arithmetic sequence where a < b < c < d < e. What’s the greatest value of a+b?`, 
+                answer: 35 
+            },
+            { 
+                text: `5. In the coordinate plane, line y=ax-a intersects with y=x+a on the line y=2x+3. What is the sum 
+                of all the possible values of a?`, 
+                answer: 1 
+            },
+            { 
+                text: `6. Triangle MNP and triangle QRS are congruent. MN ⊥ PN and MP=8, and meanwhile SR=VS=6. Therefore, what is the length of NR?`, 
+                answer: (56 + 8 * Math.sqrt(7)) / 7
+            }
+        ];
+
+        let currentIndex = 0;
+        let score = 0;
+        let userAnswers = new Array(questions.length).fill(null); // Initialize userAnswers with nulls
+        let nameSubmitted = false;
+        let MQ; // Declare MQ here
+
+        function showQuestion() {
+            document.getElementById('questionDisplay').innerHTML = questions[currentIndex].text;
+            const mathInput = document.getElementById('mathInput');
+            mathInput.innerHTML = ''; // Clear previous input
+            MQ = MathQuill.getInterface(2); // Initialize MathQuill
+            const MQField = MQ.MathField(mathInput, {
+                spaceBehavesLikeTab: true,
+                handlers: {
+                    enter: function () {
+                        nextQuestion(); // Move to next question when enter is pressed
+                    }
+                }
+            });
+            document.getElementById('backButton').classList.toggle('hidden', currentIndex === 0);
+        }
+
+        function nextQuestion() {
+            const userAnswer = document.querySelector('.mq-editable-field').innerText; // Get the input value
+            if (userAnswer.trim() === "") {
+                score += 1; // Earn 1 point for blank answer
+            } else {
+                const answer = questions[currentIndex].answer;
+                if (userAnswer == answer) {
+                    score += 5; // Earn 5 points for correct answer
+                }
+            }
+
+            if (currentIndex < questions.length - 1) {
+                currentIndex++;
+                showQuestion();
+            } else {
+                displayScore();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                showQuestion();
+            }
+        }
+
+        function displayScore() {
+            document.getElementById('questionSection').classList.add('hidden');
+            document.getElementById('scoreSection').classList.remove('hidden');
+            document.getElementById('finalScoreDisplay').innerText = `Your score: ${score}`;
+            updateLeaderboard();
+        }
+
+        function submitPlayer() {
+            const playerName = document.getElementById('playerName').value;
+            if (playerName) {
+                alert(`Thank you, ${playerName}! Your score of ${score} has been submitted!`);
+                nameSubmitted = true; // Set the flag to true after submitting the name
+                updateLeaderboard();
+            } else {
+                alert("Please enter your name before submitting!");
+            }
+        }
+
+        function updateLeaderboard() {
+            const rankingDisplay = document.getElementById('rankingDisplay');
+            rankingDisplay.innerHTML += `<div class="ranking-item">${document.getElementById('playerName').value}: ${score}</div>`;
+        }
+
+        // Initialize the first question
+        showQuestion();
+    </script>
+</body>
+</html>
