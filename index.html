@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Geometry Helper 📐</title>
+    <link rel="icon" href="./images/favicon.png" sizes="any" type="image/png">
+    <link rel="stylesheet" href="./style.css">
+    <script src="./main.js" defer></script>
+</head>
+<body>
+    <h1>
+        <img class="heading_img" src="./images/geometry.png" width="32px">
+        Geometry Helper
+        <img class="heading_img" src="./images/geometry.png" width="32px">
+    </h1>
+
+    <h3>Use the tools below to help with your math!</h3>
+
+    <p>
+        Round answers to the nearest
+        <input type="number" id="rounding" value="4" min="0" max="10" class="short_number">
+        decimals.
+    </p>
+
+    <hr>
+
+    <!-- Geometry -->
+    <div>
+        <h4>Part 1 - Geometry</h4>
+        <label for="length">Length:</label>
+        <input id="length" type="number" value="1" class="short_number"> &nbsp;
+        <label for="height">Height:</label>
+        <input id="height" type="number" value="1" class="short_number"> &nbsp;
+        <label for="width">Width:</label>
+        <input id="width" type="number" value="1" class="short_number"> &nbsp;
+        <label for="radius">Radius:</label>
+        <input id="radius" type="number" value="1" class="short_number"> &nbsp;<br><br>
+
+        <button id="rpv">Rectangular Prism Volume</button>
+        <button id="rpa">Rectangular Prism Area</button>
+        <button id="sv">Sphere Volume</button>
+        <button id="sa">Sphere Area</button> <br><br>
+
+        <label for="x1">x1:</label>
+        <input id="x1" type="number" value="1" class="short_number"> &nbsp;
+        <label for="y1">y1:</label>
+        <input id="y1" type="number" value="1" class="short_number"> &nbsp;
+        <label for="x2">x2:</label>
+        <input id="x2" type="number" value="1" class="short_number"> &nbsp;
+        <label for="y2">y2:</label>
+        <input id="y2" type="number" value="1" class="short_number"> &nbsp;<br><br>
+
+        <button id="slope">Slope</button>
+        <button id="line_length">Line Length</button>
+        <button id="midpoint">Midpoint</button> <br><br>
+    </div>
+
+    <hr>
+
+    <!-- Quadratics -->
+    <div>
+        <h4>Part 2 - Quadratics</h4>
+        <p>Enter the values of "a", "b", and "c" for a quadratic in standard form:</p>
+
+        <label for="a">a:</label>
+        <input id="a" type="number" value="1" class="short_number"> &nbsp;
+        <label for="b">b:</label>
+        <input id="b" type="number" value="1" class="short_number"> &nbsp;
+        <label for="c">c:</label>
+        <input id="c" type="number" value="1" class="short_number"><br><br>
+
+        <button id="zeros">Find the Zeros</button>
+        <button id="vertex">Find the Vertex</button>
+
+        <div id="quadratic_output"></div>
+    </div>
+</body>
+</html>
