@@ -83,3 +83,35 @@ function line_length() {
     let length = Math.sqrt((delta(x1,x2)) ** 2 + (delta(y1,y2)) ** 2);
     alert(`The line length is: ${round_user(length)}`);
 }
+
+function rect_prism_volume() {
+   let length = Number(document.getElementById("length").value);
+   let width = Number(document.getElementById("width").value);
+   let height = Number(document.getElementById("height").value);
+   let volume = length * width * height;
+   volume = round_user(volume);
+   alert("The volume of the rectangular prism is: " + volume);
+}
+
+function rect_prism_area() {
+   let length = Number(document.getElementById("length").value);
+   let width = Number(document.getElementById("width").value);
+   let height = Number(document.getElementById("height").value);
+   let area = 2 * (length * width + width * height + length * height);
+   area = round_user(area);
+   alert("The area of the rectangular prism is: " + area);
+}
+
+function sphere_volume() {
+   let radius = Number(document.getElementById("radius").value);
+   let volume = (4 / 3) * Math.PI * Math.pow(radius, 3);
+   volume = round_user(volume);
+   alert("The volume of the sphere is: " + volume);
+}
+
+function sphere_area() {
+   let radius = Number(document.getElementById("radius").value);
+   let area = 4 * Math.PI * Math.pow(radius, 2);
+   area = round_user(area);
+   alert("The area of the sphere is: " + area);
+}
